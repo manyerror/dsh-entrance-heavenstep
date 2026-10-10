@@ -15,7 +15,8 @@ function tar(args) {
   assert.equal(result.status, 0, result.stderr.toString())
   return result.stdout
 }
-const entries = tar(['-tzf', archive]).toString().trim().split('\n')
+// Windows bsdtar lists entries with CRLF; normalize so names match package paths.
+const entries = tar(['-tzf', archive]).toString().replace(/\r/g, '').trim().split('\n')
 assert.equal(new Set(entries).size, entries.length, 'Duplicate archive entries')
 for (const entry of entries) {
   const parts = entry.split('/')
@@ -51,8 +52,8 @@ for (const path of expected) {
   assert.equal(sha256(readPacked(path)), sha256(await readFile(resolve(root, path))), `Stale or changed packaged file: ${path}`)
 }
 const artwork = [...readPacked('LICENSE-ASSETS').toString().matchAll(/^([a-f0-9]{64})  (\S+)$/gm)]
-assert.equal(artwork.length, 5, 'Expected four PNGs and the example GIF in the artwork record')
+assert.equal(artwork.length, 9, 'Expected the example PNGs and GIF, the personal hero, and this entrance\'s media in the artwork record')
 for (const [, hash, path] of artwork) assert.equal(sha256(readPacked(path)), hash, `Artwork hash mismatch: ${path}`)
 const sum = `${sha256(await readFile(archive))}  ${basename(archive)}\n`
 await writeFile(resolve(dirname(archive), 'SHA256SUMS'), sum)
-console.log(`Verified ${basename(archive)}: ${expected.length} source files, package entries and 5 artwork hashes; SHA256SUMS written`)
+console.log(`Verified ${basename(archive)}: ${expected.length} source files, package entries and ${artwork.length} artwork hashes; SHA256SUMS written`)

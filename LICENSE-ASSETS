@@ -17,7 +17,11 @@ the underlying rights holders.
 | `lib/assets/entrance/20261006/yoimiya-expression.png` | Aligned expression frame |
 | `lib/assets/entrance/20261006/koi-emblem-v1.png` | Decorative koi emblem |
 | `lib/assets/entrance/20261006/festival-ribbon-v1.png` | Decorative ribbon |
-| `docs/media/demo.gif` | Browser-rendered demonstration containing the example artwork |
+| `docs/media/demo.gif` | Upstream browser-rendered demonstration (example artwork, not used by this entrance) |
+| `lib/assets/entrance/20261010/hero.jpg` | This entrance's hero scene (user-provided) |
+| `docs/media/heavenstep-preview.jpg` | This entrance's settled-scene still frame |
+| `docs/media/heavenstep-entrance.gif` | This entrance's layered-entrance recording |
+| `docs/media/heavenstep-water-exit.gif` | This entrance's water-ripple handoff recording |
 
 SHA-256 of the bundled files:
 
@@ -27,6 +31,10 @@ SHA-256 of the bundled files:
 f795090a3af9399f5dea79b1c9a8ded877553a3e43309e94d9c0b767cff21e64  lib/assets/entrance/20261006/koi-emblem-v1.png
 afc5ad2b961e48f37b18be4e7b83ae89c55e612e86ebacdd77b9e0a84c9fb7e2  lib/assets/entrance/20261006/festival-ribbon-v1.png
 cb674b2dfc39b1aa942f561ef3a7532bab17500d21c0a89dd5da364b45ac0b2a  docs/media/demo.gif
+a09d284819f494ef8628954c8eafc79b2d537b395821d4c89377e6c65fa7aec7  lib/assets/entrance/20261010/hero.jpg
+a9717e519b8a61606a6ffb8a69925dfbe27bf0c77c92dcaff4310ff7ce42a245  docs/media/heavenstep-preview.jpg
+cd877580128c31581e2e864f31c32e6a8a60ddfaefdb22281be5497ee3ae4447  docs/media/heavenstep-entrance.gif
+56890593b0328150168f23ec89d1ffa911b9a85b272f6646f1f4dfa36300b657  docs/media/heavenstep-water-exit.gif
 ```
 
 ## Adapting and publishing
@@ -51,6 +59,18 @@ their embedded `caBX` chunks when distributing those original PNG files; do not
 remove or falsify AI provenance labels. Retain the creation notes as well. An
 empty ingredient list does not establish that no reference image was used, and
 the manifest is not a copyright clearance or a complete account of the workflow.
+
+The personal hero `lib/assets/entrance/20261010/hero.jpg` was supplied by the user
+for this adaptation. No C2PA record was read or asserted for it here, and its
+underlying provenance and rights are **not** established by this repository. It is
+bundled only as the working asset of this personal entrance; replace it with
+material you are entitled to use before redistributing or publishing this version.
+
+The three `docs/media/heavenstep-*.{jpg,gif}` files are browser captures of this
+entrance rendered from that same user-provided hero. They inherit the hero's
+unverified provenance and are likewise **not** cleared for redistribution by this
+repository. `docs/media/demo.gif` is the upstream example demonstration and is not
+referenced by this entrance.
 
 When publishing images or recordings containing this artwork, disclose the AI
 generated artwork and follow the publication platform's applicable labeling

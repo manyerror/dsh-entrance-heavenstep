@@ -25,11 +25,11 @@ function fixture() {
   return { request, dispose, registered }
 }
 
-const artwork = ['yoimiya-welcome.png', 'yoimiya-expression.png', 'koi-emblem-v1.png', 'festival-ribbon-v1.png']
-const assetURL = filename => `${ASSETS_PATH}/entrance/20261006/${filename}`
+const artwork = ['hero.jpg']
+const assetURL = filename => `${ASSETS_PATH}/entrance/20261010/${filename}`
 
 test('Node half declares the DSH webServer dependency and unregisters its route', () => {
-  assert.equal(name, 'dsh-entrance')
+  assert.equal(name, 'dsh-entrance-heavenstep')
   assert.deepEqual(inject, ['webServer'])
   const f = fixture()
   assert.equal(f.registered.size, 1)
@@ -37,18 +37,19 @@ test('Node half declares the DSH webServer dependency and unregisters its route'
   assert.equal(f.registered.size, 0)
 })
 
-test('all four packaged scene images are served as PNG bytes with MIME and exact length', async () => {
+test('the packaged hero scene image is served as JPEG bytes with MIME and exact length', async () => {
   const f = fixture()
   try {
     for (const filename of artwork) {
       const response = await f.request(assetURL(filename) + '?version=1')
-      const source = await readFile(new URL(`../lib/assets/entrance/20261006/${filename}`, import.meta.url))
+      const source = await readFile(new URL(`../lib/assets/entrance/20261010/${filename}`, import.meta.url))
       assert.equal(response.status, 200, filename)
-      assert.equal(response.headers['Content-Type'], 'image/png')
+      assert.equal(response.headers['Content-Type'], 'image/jpeg')
       assert.equal(response.headers['X-Content-Type-Options'], 'nosniff')
       assert.equal(response.headers['Content-Length'], source.length)
       assert.deepEqual(response.body, source)
-      assert.deepEqual([...response.body.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10])
+      // JPEG SOI marker.
+      assert.deepEqual([...response.body.subarray(0, 3)], [0xff, 0xd8, 0xff])
     }
   } finally { f.dispose() }
 })
@@ -71,17 +72,17 @@ test('unsupported methods, malformed escapes, traversal, and missing assets fail
     assert.equal(unsupported.status, 405)
     assert.equal(unsupported.headers.Allow, 'GET, HEAD')
     for (const [path, status] of [
-      [`${ASSETS_PATH}/%ZZ.png`, 400],
+      [`${ASSETS_PATH}/%ZZ.jpg`, 400],
       [`${ASSETS_PATH}/%2e%2e%2fpackage.json`, 403],
       [`${ASSETS_PATH}/entrance/%5c..%5cpackage.json`, 403],
-      [`${ASSETS_PATH}/entrance/%00.png`, 403],
-      [`${ASSETS_PATH}//entrance/file.png`, 403],
+      [`${ASSETS_PATH}/entrance/%00.jpg`, 403],
+      [`${ASSETS_PATH}//entrance/file.jpg`, 403],
       [`${ASSETS_PATH}/../package.json`, 403],
-      [`${ASSETS_PATH}-other/file.png`, 403],
+      [`${ASSETS_PATH}-other/file.jpg`, 403],
       [ASSETS_PATH, 403],
-      [assetURL('missing.png'), 404],
+      [assetURL('missing.jpg'), 404],
     ]) {
-      const response = await f.request(path)
+      const response = await f.request(path, status === 405 ? 'POST' : 'GET')
       assert.equal(response.status, status, path)
       assert.equal(response.body, undefined, path)
     }
@@ -98,7 +99,7 @@ test('package exposes the bundle patch, Node entry, and browser entry at existin
     await access(new URL(relative, root))
   }
   const patch = await readFile(new URL(pkg.dsh.bundle.patch, root), 'utf8')
-  assert.match(patch, /id:\s*dsh-entrance\b/)
-  assert.match(patch, /name:\s*dsh-entrance\b/)
+  assert.match(patch, /id:\s*dsh-entrance-heavenstep\b/)
+  assert.match(patch, /name:\s*dsh-entrance-heavenstep\b/)
   assert.ok(pkg.files.includes('lib'), 'published package must include runtime source and artwork')
 })

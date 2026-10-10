@@ -43,7 +43,7 @@ function fixture(options = {}) {
 
 test('three distinct fish overlap so at least two remain visible throughout repeated leap cycles', () => {
   const f = fixture()
-  assert.deepEqual(f.fish().map(fish => fish.dataset.riverFish), ['gold-koi', 'vermilion-fantail', 'jade-minnow'])
+  assert.deepEqual(f.fish().map(fish => fish.dataset.riverFish), ['silver-koi', 'ice-fantail', 'jade-minnow'])
   assert.equal(new Set(f.fish().map(fish => fish.style.width)).size, 3)
   assert.equal(new Set(f.fish().map(fish => fish.children[0].innerHTML)).size, 3)
   let allThreeVisible = false

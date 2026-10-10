@@ -1,8 +1,22 @@
 # Notices
 
+## This project
+
+`dsh-entrance-heavenstep` is a derivative work of
+[AAAholic/dsh-entrance](https://github.com/AAAholic/dsh-entrance). It reuses that
+project's layered storyboard clock, the shared `welcomeWaterWaves()` geometry, the
+controller (focus restoration, input shield, long-press passthrough, background
+pause, reduced motion, disposal) and its test/packaging pipeline, and rewrites the
+scene, hero layer, bottom wave band and palette for a user-provided hero image.
+The plugin identifier is `dsh-entrance-heavenstep` so it installs independently of
+the upstream plugin. Do not enable both entrances at the same time.
+
+The upstream MIT notice is preserved in [LICENSE](LICENSE) and covers the software
+and code documentation of this derivative as well.
+
 ## Code
 
-This independent entrance plugin was extracted from a local extension of
+The upstream project was extracted from a local extension of
 [vlln/whale-girl](https://github.com/vlln/whale-girl), based on upstream commit
 `4fe5792c6f873c6b3a29dd12198ba47a397e17f3`.
 
@@ -20,6 +34,15 @@ boundary. Preserve the
 upstream copyright and permission notice when redistributing substantial portions
 of the software. This project is an independent community adaptation, not an
 official release by the upstream author or DeepSeek.
+
+## This entrance's artwork
+
+`lib/assets/entrance/20261010/hero.jpg` is the hero image for this entrance and was
+**supplied by the user**. No C2PA record was read or asserted for it here, and this
+repository does not establish its provenance or grant any rights in it. The
+`docs/media/heavenstep-*.{jpg,gif}` captures render that same image and inherit the
+same unverified status. Replace them with material you are entitled to use before
+redistributing or publishing this version.
 
 ## PNG artwork and fan-art example
 
