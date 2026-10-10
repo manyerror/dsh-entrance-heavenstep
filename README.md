@@ -7,8 +7,6 @@
 
 ![分层登场](docs/media/heavenstep-entrance.gif)
 
-![水波交接：同一几何同时驱动水体与欢迎层遮罩](docs/media/heavenstep-water-exit.gif)
-
 [![CI](https://github.com/manyerror/dsh-entrance-heavenstep/actions/workflows/ci.yml/badge.svg)](https://github.com/manyerror/dsh-entrance-heavenstep/actions/workflows/ci.yml)
 
 ## 安装到 DSH
