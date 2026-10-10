@@ -125,6 +125,44 @@ pnpm run preview      # http://127.0.0.1:4320
 四档视口均无重叠（间距 > 0）。改动后 `pnpm test` 仍 16/16、`pnpm run test:browser` 仍 36/36。
 注：首次测量脚本误查了宿主元素的 light DOM 而返回空值，属假阴性；已改为读取 shadow root 后重测。
 
+## 发布
+
+### 独立插件标识
+
+为了让其他人可以单独安装、并作为 `dsh-entrance-heavenstep` 启用，插件标识已从上游的
+`dsh-entrance` 改名，以下位置同步更新：
+
+| 位置 | 新值 |
+| --- | --- |
+| `package.json` `name` / `version` | `dsh-entrance-heavenstep` / `1.0.0` |
+| `cordis.patch.yml` `id` 与 `name` | `dsh-entrance-heavenstep` |
+| `lib/index.mjs`、`lib/client/index.mjs` 的 `name` | `dsh-entrance-heavenstep` |
+| 预构建客户端 ModuleLoader `id` | `dsh-entrance-heavenstep`（由 `scripts/build.mjs` 读 `package.json` 生成，不再硬编码） |
+| 资源前缀 `ASSETS_PATH` | `/dsh-entrance-heavenstep/assets` |
+| 偏好键 | `dsh.entrance-heavenstep.preferences.v2` |
+| DOM 标记 / 事件 | `data-dsh-entrance-heavenstep[-controller]`、`dsh-entrance-heavenstep:replay` / `:settings` |
+
+并存处理：本控制器在检测到自己的控制器或上游 `dsh-entrance` 控制器时不再挂载，重播也避让
+已存在的欢迎层；README 明确建议**不要同时启用两个入场插件**。
+
+### 发布地址与安装
+
+- 仓库：<https://github.com/manyerror/dsh-entrance-heavenstep>
+- 安装：DSH 插件管理页 →「添加插件」→ 填写上面的仓库地址 → 启用 `dsh-entrance-heavenstep`
+
+### 发布后核对（已实测）
+
+| 检查 | 结果 |
+| --- | --- |
+| `git push` 到新仓库 `main` | 成功（首个提交 `a7415b7`，保留上游历史以便署名） |
+| 远端 `package.json` | `name=dsh-entrance-heavenstep`、`dsh.bundle.patch=./cordis.patch.yml`、`dsh.client.platform=web`、`files` 含 `lib` |
+| 远端 `cordis.patch.yml` | `id` 与 `name` 均为 `dsh-entrance-heavenstep` |
+| 远端 `lib/client.js` | ModuleLoader `id: "dsh-entrance-heavenstep"` |
+| 远端素材与文档 | `hero.jpg`、两个演示 GIF、预览图、本记录均可访问（HTTP 200） |
+| GitHub Actions CI（Ubuntu / Node 22 / Chromium） | 提交 `a7415b7` **success**：锁定依赖安装、构建一致性、单元测试、浏览器检查、打包校验全部通过 |
+
+CI 通过是**独立于本机的干净环境**证据，并覆盖 Linux；但它仍不等于原生 DSH / Electron 宿主验收。
+
 ## 剩余问题
 
 - 宽屏下标题与面部左侧有轻微重叠，属分层构图取舍；如需避让可下移标题或缩小字号。
